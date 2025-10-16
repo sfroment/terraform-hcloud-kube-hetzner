@@ -112,6 +112,18 @@ output "kubeconfig" {
   sensitive   = true
 }
 
+output "cluster_ca_certificates" {
+  value       = base64decode(local.kubeconfig_parsed["clusters"][0]["cluster"]["certificate-authority-data"])
+  description = "Kubeconfig file content with external IP address, or internal IP address if only private ips are available"
+  sensitive   = true
+}
+
+output "host" {
+  value     = local.kubeconfig_parsed["clusters"][0]["cluster"]["server"]
+  sensitive = false
+}
+
+
 output "kubeconfig_data" {
   description = "Structured kubeconfig data to supply to other providers"
   value       = local.kubeconfig_data
